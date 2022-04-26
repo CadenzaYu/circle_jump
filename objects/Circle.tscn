@@ -87,9 +87,7 @@ tracks/1/keys = {
 size = 64
 font_data = ExtResource( 4 )
 
-[node name="Circle" type="Area2D" groups=[
-"circles",
-]]
+[node name="Circle" type="Area2D" groups=["circles"]]
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -132,4 +130,5 @@ valign = 1
 stream = ExtResource( 5 )
 
 [node name="MoveTween" type="Tween" parent="."]
+
 [connection signal="tween_completed" from="MoveTween" to="." method="set_tween"]

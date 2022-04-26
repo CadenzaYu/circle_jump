@@ -33,9 +33,11 @@ stream = ExtResource( 4 )
 
 [node name="Admob" type="Node" parent="."]
 script = ExtResource( 6 )
-is_real = false
-banner_on_top = false
+banner_id = "ca-app-pub-3940256099942544/6300978111"
+interstitial_id = "ca-app-pub-3940256099942544/1033173712"
+rewarded_id = "ca-app-pub-3940256099942544/5224354917"
 child_directed = true
+
 [connection signal="start_game" from="Screens" to="." method="new_game"]
 [connection signal="banner_failed_to_load" from="Admob" to="." method="_on_Admob_banner_failed_to_load"]
 [connection signal="banner_loaded" from="Admob" to="." method="_on_Admob_banner_loaded"]
