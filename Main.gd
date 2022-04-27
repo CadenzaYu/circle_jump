@@ -117,9 +117,8 @@ func _notification(what):
 		if $Screens.current_screen == $Screens/TitleScreen:
 			get_tree().quit()
 		else:
-			if $Screens.current_screen == null: #playing
-				get_tree().call_group("circles", "implode")
-			$Screens.change_screen($Screens/TitleScreen)
+			if $Screens.current_screen: #not playing
+				$Screens.change_screen($Screens/TitleScreen)
 #	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 #		print("focus out")
 #	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:

@@ -4,14 +4,14 @@
 [ext_resource path="res://assets/fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/images/buttons/return.png" type="Texture" id=3]
 
+[sub_resource type="DynamicFont" id=3]
+size = 20
+font_data = ExtResource( 2 )
+
 [sub_resource type="StyleBoxFlat" id=1]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.15, 0.15, 0.15, 0.48 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 20
-font_data = ExtResource( 2 )
 
 [node name="AboutScreen" instance=ExtResource( 1 )]
 
@@ -29,13 +29,16 @@ margin_right = 440.0
 margin_bottom = 700.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 3 )
 custom_styles/focus = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
-custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
-bbcode_text = "[center][u]Circle Jump[/u]
+bbcode_text = "[center][u]Rocket Launch[/u]
 
 [img]res://assets/images/godot_logo.png[/img][/center]
+
+Rocket Launch came from a fork of the Circle Jump.
+[url=https://github.com/CadenzaYu/circle_jump]Rochet Launch Source[/url]
 
 Circle Jump is an open source tutorial game made with the Godot Game Engine. You can find the tutorial and the game's source code here:
 
@@ -44,9 +47,12 @@ Circle Jump is an open source tutorial game made with the Godot Game Engine. You
 Copyright © 2019, 2020 KidsCanCode
 
 [url=https://github.com/kidscancode/circle_jump/blob/master/LICENSE]License Information[/url]"
-text = "Circle Jump
+text = "Rocket Launch
 
 
+
+Rocket Launch came from a fork of the Circle Jump.
+Rochet Launch Source
 
 Circle Jump is an open source tutorial game made with the Godot Game Engine. You can find the tutorial and the game's source code here:
 
@@ -61,11 +67,10 @@ margin_top = 704.0
 margin_right = 440.0
 margin_bottom = 804.0
 
-[node name="Home" type="TextureButton" parent="MarginContainer/VBoxContainer2/CenterContainer" index="0" groups=[
-"buttons",
-]]
+[node name="Home" type="TextureButton" parent="MarginContainer/VBoxContainer2/CenterContainer" index="0" groups=["buttons"]]
 margin_left = 170.0
 margin_right = 270.0
 margin_bottom = 100.0
 texture_normal = ExtResource( 3 )
+
 [connection signal="meta_clicked" from="MarginContainer/VBoxContainer2/TextEdit" to="." method="_on_TextEdit_meta_clicked"]

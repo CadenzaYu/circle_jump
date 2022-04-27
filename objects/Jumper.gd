@@ -5,13 +5,17 @@ signal died
 
 onready var trail = $Trail/Points
 
+var rocket = preload("res://assets/images/rocket.png")
+var launch = preload("res://assets/images/launch.png")
+
 var velocity = Vector2(100, 0)
 var jump_speed = 1500
 var target = null
 var trail_length = 25
 
 func _ready():
-	$Sprite.material.set_shader_param("color", settings.theme["player_body"])
+	#$Sprite.material.set_shader_param("color", settings.theme["player_body"])
+	$Sprite.texture = rocket
 	var trail_color = settings.theme["player_trail"]
 	trail.gradient.set_color(1, trail_color)
 	trail_color.a = 0
@@ -24,6 +28,7 @@ func _unhandled_input(event):
 func jump():
 	target.implode()
 	target = null
+	$Sprite.texture = launch
 	velocity = transform.x * jump_speed
 	if settings.enable_sound:
 		$Jump.play()
@@ -32,6 +37,7 @@ func _on_Jumper_area_entered(area):
 	target = area
 	velocity = Vector2.ZERO
 	emit_signal("captured", area)
+	$Sprite.texture = rocket
 	if settings.enable_sound:
 		$Capture.play()
 	
