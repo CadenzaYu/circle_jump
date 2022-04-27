@@ -53,7 +53,7 @@ var admob = null
 #var ad_banner_id = ""
 #var ad_interstitial_id = ""
 var enable_ads = true setget set_enable_ads
-var interstitial_rate = 0.2
+var interstitial_rate = 0.5
 	
 #func _ready():
 #	load_settings()

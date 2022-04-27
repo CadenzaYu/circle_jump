@@ -20,7 +20,7 @@ func register_buttons():
 		button.connect("pressed", self, "_on_button_pressed", [button])
 		match button.name:
 			"Ads":
-				if not Engine.has_singleton("AdMob"):
+				if not Engine.has_singleton("GodotAdMob"):
 					button.hide()
 				if settings.enable_ads:
 					button.text = "Disable Ads"

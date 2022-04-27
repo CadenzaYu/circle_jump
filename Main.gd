@@ -111,9 +111,15 @@ func set_bonus(value):
 	bonus = value
 	$HUD.update_bonus(bonus)
 	
-#func _notification(what):
-#	if what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST:
-#		print("go back")
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST or what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST:
+		print("go back")
+		if $Screens.current_screen == $Screens/TitleScreen:
+			get_tree().quit()
+		else:
+			if $Screens.current_screen == null: #playing
+				get_tree().call_group("circles", "implode")
+			$Screens.change_screen($Screens/TitleScreen)
 #	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 #		print("focus out")
 #	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
@@ -130,6 +136,7 @@ func _on_Admob_banner_loaded():
 
 func _on_Admob_interstitial_closed():
 	print("Interstitial closed\n")
+	admob.show_banner()
 
 
 func _on_Admob_interstitial_failed_to_load(error_code):
