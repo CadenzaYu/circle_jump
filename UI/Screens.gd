@@ -27,12 +27,12 @@ func register_buttons():
 				else:
 					button.text = "Enable Ads"
 			"Sound":
-				button.texture_normal = sound_buttons[settings.enable_sound]
+				button.texture_normal = sound_buttons[settings.save_dict["enable_sound"]]
 			"Music":
-				button.texture_normal = music_buttons[settings.enable_music]
+				button.texture_normal = music_buttons[settings.save_dict["enable_music"]]
 
 func _on_button_pressed(button):
-	if settings.enable_sound:
+	if settings.save_dict["enable_sound"]:
 		$Click.play()
 	match button.name:
 		"About":
@@ -52,13 +52,13 @@ func _on_button_pressed(button):
 		"Settings":
 			change_screen($SettingsScreen)
 		"Sound":
-			settings.enable_sound = !settings.enable_sound
-			button.texture_normal = sound_buttons[settings.enable_sound]
-			settings.save_settings()
+			settings.save_dict["enable_sound"] = !settings.save_dict["enable_sound"]
+			button.texture_normal = sound_buttons[settings.save_dict["enable_sound"]]
+			settings.save_game()
 		"Music":
-			settings.enable_music = !settings.enable_music
-			button.texture_normal = music_buttons[settings.enable_music]
-			settings.save_settings()
+			settings.save_dict["enable_music"] = !settings.save_dict["enable_music"]
+			button.texture_normal = music_buttons[settings.save_dict["enable_music"]]
+			settings.save_game()
 
 func change_screen(new_screen):
 	if current_screen:

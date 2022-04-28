@@ -30,7 +30,7 @@ func jump():
 	target = null
 	$Sprite.texture = launch
 	velocity = transform.x * jump_speed
-	if settings.enable_sound:
+	if settings.save_dict["enable_sound"]:
 		$Jump.play()
 
 func _on_Jumper_area_entered(area):
@@ -38,7 +38,7 @@ func _on_Jumper_area_entered(area):
 	velocity = Vector2.ZERO
 	emit_signal("captured", area)
 	$Sprite.texture = rocket
-	if settings.enable_sound:
+	if settings.save_dict["enable_sound"]:
 		$Capture.play()
 	
 func _physics_process(delta):

@@ -1,10 +1,5 @@
 extends Node
 
-var score_file = "user://highscore.save"
-var settings_file = "user://settings.save"
-var enable_sound = true
-var enable_music = true
-
 var circles_per_level = 5
 
 var color_schemes = {
@@ -36,6 +31,46 @@ var color_schemes = {
 
 var theme = color_schemes["NEON1"]
 
+var admob = null
+var enable_ads = true setget set_enable_ads
+var interstitial_rate = 0.5
+
+# Game data
+var save_dict = {
+		"enable_sound" : true,
+		"enable_music" : true,
+		"enable_ads" : true,
+		"highscore" : 0
+	}
+# Note: This can be called from anywhere inside the tree. This function is
+# path independent.
+# Go through everything in the persist category and ask them to return a
+# dict of relevant variables.
+func save_game():
+	var save_game = File.new()
+	save_game.open("user://savegame.save", File.WRITE)
+	# Store the save dictionary as a new line in the save file.
+	save_game.store_line(Marshalls.utf8_to_base64(to_json(save_dict)))
+	save_game.close()
+
+# Note: This can be called from anywhere inside the tree. This function
+# is path independent.
+func load_game():
+	var save_game = File.new()
+	if not save_game.file_exists("user://savegame.save"):
+		return # Error! We don't have a save to load.
+
+	# Load the file line by line and process that dictionary to restore
+	# the object it represents.
+	save_game.open("user://savegame.save", File.READ)
+	# Get the saved dictionary from the next line in the save file
+	var node_data:Dictionary = parse_json(Marshalls.base64_to_utf8(save_game.get_as_text()))
+	if not node_data.empty():
+		for key in node_data.keys():
+			save_dict[key] = node_data[key]
+	save_game.close()
+	self.enable_ads = save_dict["enable_ads"]
+
 static func rand_weighted(weights):
 	var sum = 0
 	for weight in weights:
@@ -46,63 +81,13 @@ static func rand_weighted(weights):
 			return i
 		num -= weights[i]
 		
-var admob = null
-#var real_ads = false
-#var banner_top = false
-## Fill these from your AdMob account:
-#var ad_banner_id = ""
-#var ad_interstitial_id = ""
-var enable_ads = true setget set_enable_ads
-var interstitial_rate = 0.5
-	
-#func _ready():
-#	load_settings()
-#	if Engine.has_singleton("AdMob"):
-#		admob = Engine.get_singleton("AdMob")
-#		admob.initWithContentRating(real_ads, get_instance_id(), true, false, "G")
-#		admob.loadBanner(ad_banner_id, banner_top)
-#		admob.loadInterstitial(ad_interstitial_id)
-		
-#func show_ad_banner():
-#	if admob and enable_ads:
-#		admob.showBanner()
-#
-#func hide_ad_banner():
-#	if admob:
-#		admob.hideBanner()
-#
-#func show_ad_interstitial():
-#	if admob and enable_ads:
-#		if randf() < interstitial_rate:
-#			admob.showInterstitial()
-#		else:
-#			show_ad_banner()
-#
-#func _on_interstitial_close():
-#	if admob and enable_ads:
-#		show_ad_banner()
 		
 func set_enable_ads(value):
 	enable_ads = value
+	save_dict["enable_ads"] = value
 	if enable_ads:
 		admob.show_banner()
 	if !enable_ads:
 		admob.hide_banner()
-	save_settings()
+	save_game()
 		
-func save_settings():
-	var f = File.new()
-	f.open(settings_file, File.WRITE)
-	f.store_var(enable_sound)
-	f.store_var(enable_music)
-	f.store_var(enable_ads)
-	f.close()
-	
-func load_settings():
-	var f = File.new()
-	if f.file_exists(settings_file):
-		f.open(settings_file, File.READ)
-		enable_sound = f.get_var()
-		enable_music = f.get_var()
-		self.enable_ads = f.get_var()
-		f.close()

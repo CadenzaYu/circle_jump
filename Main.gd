@@ -18,7 +18,8 @@ func _ready():
 	admob.load_banner()
 	admob.load_interstitial()
 	randomize()
-	load_score()
+	settings.load_game()
+	highscore = settings.save_dict["highscore"]
 	$HUD.hide()
 	$Background/ColorRect.color = settings.theme["background"]
 	
@@ -39,7 +40,7 @@ func new_game():
 	spawn_circle($StartPosition.position)
 	$HUD.show()
 	$HUD.show_message("Go!")
-	if settings.enable_music:
+	if settings.save_dict["enable_music"]:
 		$Music.volume_db = 0
 		$Music.play()
 	
@@ -74,11 +75,12 @@ func set_score(value):
 func _on_Jumper_died():
 	if score > highscore:
 		highscore = score
-		save_score()
+		settings.save_dict["highscore"] = score
+		settings.save_game()
 	get_tree().call_group("circles", "implode")
 	$Screens.game_over(score, highscore)
 	$HUD.hide()
-	if settings.enable_music:
+	if settings.save_dict["enable_music"]:
 		fade_music()
 	yield(get_tree().create_timer(1.0), "timeout")
 	if settings.enable_ads:
@@ -86,19 +88,6 @@ func _on_Jumper_died():
 			admob.show_interstitial()
 		else:
 			admob.show_banner()
-
-func load_score():
-	var f = File.new()
-	if f.file_exists(settings.score_file):
-		f.open(settings.score_file, File.READ)
-		highscore = f.get_var()
-		f.close()
-		
-func save_score():
-	var f = File.new()
-	f.open(settings.score_file, File.WRITE)
-	f.store_var(highscore)
-	f.close()
 
 func fade_music():
 	$MusicFade.interpolate_property($Music, "volume_db",
@@ -116,9 +105,8 @@ func _notification(what):
 		print("go back")
 		if $Screens.current_screen == $Screens/TitleScreen:
 			get_tree().quit()
-		else:
-			if $Screens.current_screen: #not playing
-				$Screens.change_screen($Screens/TitleScreen)
+		elif $Screens.current_screen: #not playing
+			$Screens.change_screen($Screens/TitleScreen)
 #	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 #		print("focus out")
 #	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
