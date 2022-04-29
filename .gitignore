@@ -7,5 +7,6 @@ __pycache__
 logs/
 apikey.properties
 android/
+screenshots/
 *.import
 export_presets.cfg

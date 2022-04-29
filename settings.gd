@@ -1,6 +1,6 @@
 extends Node
 
-const DEBUG = true
+const DEBUG = false
 var circles_per_level = 5
 
 var color_schemes = {
