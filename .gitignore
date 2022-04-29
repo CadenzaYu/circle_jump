@@ -8,3 +8,4 @@ logs/
 apikey.properties
 android/
 *.import
+export_presets.cfg

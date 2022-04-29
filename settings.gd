@@ -1,5 +1,6 @@
 extends Node
 
+const DEBUG = true
 var circles_per_level = 5
 
 var color_schemes = {
@@ -69,7 +70,7 @@ func load_game():
 		for key in node_data.keys():
 			save_dict[key] = node_data[key]
 	save_game.close()
-	self.enable_ads = save_dict["enable_ads"]
+	enable_ads = save_dict["enable_ads"]
 
 static func rand_weighted(weights):
 	var sum = 0
@@ -85,9 +86,12 @@ static func rand_weighted(weights):
 func set_enable_ads(value):
 	enable_ads = value
 	save_dict["enable_ads"] = value
-	if enable_ads:
-		admob.show_banner()
-	if !enable_ads:
-		admob.hide_banner()
+	if admob:
+		if enable_ads:
+			admob.show_banner()
+		if !enable_ads:
+			admob.hide_banner()
 	save_game()
 		
+func _ready():
+	load_game()

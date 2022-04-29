@@ -20,9 +20,10 @@ _global_script_class_icons={
 
 [application]
 
-config/name="circle_jump"
+config/name="rocket_launch"
+config/description="an one-touch casual game"
 run/main_scene="res://Main.tscn"
-config/icon="res://cj_icon_64.png"
+config/icon="res://rl_icon_64.png"
 config/quit_on_go_back=false
 
 [autoload]

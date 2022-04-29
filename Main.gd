@@ -15,10 +15,14 @@ onready var admob = $Admob
 
 func _ready():
 	settings.admob = admob
+	if settings.DEBUG:
+		admob.banner_id = "ca-app-pub-3940256099942544/6300978111"
+		admob.interstitial_id = "ca-app-pub-3940256099942544/1033173712"
+		admob.rewarded_id = "ca-app-pub-3940256099942544/5224354917"
 	admob.load_banner()
 	admob.load_interstitial()
 	randomize()
-	settings.load_game()
+	#settings.load_game()
 	highscore = settings.save_dict["highscore"]
 	$HUD.hide()
 	$Background/ColorRect.color = settings.theme["background"]
@@ -78,6 +82,7 @@ func _on_Jumper_died():
 		settings.save_dict["highscore"] = score
 		settings.save_game()
 	get_tree().call_group("circles", "implode")
+	Input.vibrate_handheld()
 	$Screens.game_over(score, highscore)
 	$HUD.hide()
 	if settings.save_dict["enable_music"]:
@@ -123,7 +128,8 @@ func _on_Admob_banner_loaded():
 
 func _on_Admob_interstitial_closed():
 	print("Interstitial closed\n")
-	admob.show_banner()
+	if settings.enable_ads:
+		admob.show_banner()
 
 
 func _on_Admob_interstitial_failed_to_load(error_code):
