@@ -19,10 +19,10 @@ func show():
 	$BonusBox.show()
 	$StartTip.show()
 	
-func update_score(score, value):
+func update_score(_score, value):
 	if value > 0 and $StartTip.visible:
 		$StartTip.hide()
-	$Tween.interpolate_property(self, "score", score,
+	$Tween.interpolate_property(self, "score", _score,
 			value, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$Tween.start()
 	$ScoreAnimation.play("score")

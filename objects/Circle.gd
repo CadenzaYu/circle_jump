@@ -92,7 +92,7 @@ func _draw():
 		draw_circle_arc_poly(Vector2.ZERO, r, orbit_start + PI/2,
 							$Pivot.rotation + PI/2, settings.theme["circle_fill"])
 												
-func draw_circle_arc_poly(center, radius, angle_from, angle_to, color):
+func draw_circle_arc_poly(center, _radius, angle_from, angle_to, color):
 	var nb_points = 32
 	var points_arc = PoolVector2Array()
 	points_arc.push_back(center)
@@ -100,7 +100,7 @@ func draw_circle_arc_poly(center, radius, angle_from, angle_to, color):
 	
 	for i in range(nb_points + 1):
 		var angle_point = angle_from + i * (angle_to - angle_from) / nb_points - PI/2
-		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius)
+		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * _radius)
 	draw_polygon(points_arc, colors)
 
 func set_tween(object=null, key=null):

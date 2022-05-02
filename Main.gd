@@ -14,15 +14,15 @@ var bonus = 0 setget set_bonus
 onready var admob = $Admob
 
 func _ready():
-	settings.admob = admob
 	if settings.DEBUG:
+		admob.is_real = false
 		admob.banner_id = "ca-app-pub-3940256099942544/6300978111"
 		admob.interstitial_id = "ca-app-pub-3940256099942544/1033173712"
 		admob.rewarded_id = "ca-app-pub-3940256099942544/5224354917"
+	settings.admob = admob
 	admob.load_banner()
 	admob.load_interstitial()
 	randomize()
-	#settings.load_game()
 	highscore = settings.save_dict["highscore"]
 	$HUD.hide()
 	$Background/ColorRect.color = settings.theme["background"]
