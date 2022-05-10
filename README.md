@@ -1,4 +1,24 @@
-# Circle Jump: A Godot Engine Game
+# Rocket Launch: A Godot Engine Game
+![](https://github.com/CadenzaYu/circle_jump/blob/master/RocketLaunch.png)
+**Rocket Launch** is an one-touch casual game. 
+
+**Get it** from the [Google Play Store](https://play.google.com/store/apps/details?id=home.cadenzayu.rocketlaunch)
+
+## Game story
+
+You will take a rocket for interstellar travel, flying from one planet to another. Because of the planet's autobiography, you have to choose the best time to launch the rocket so that it can fly to the target planet and be captured by it. If the planet can not capture you, you lose.
+
+Some planets are stable and you can take a break. Some planets are unstable and you must leave as soon as possible. The difficulty will increase over time with planets that move, shrink, and/or expire. Longer the travel time, more scores you get.
+
+The operation is very simple, at the right time, tap the screen to launch.
+
+Tip: When your highest score exceeds 400, you will be rewarded with the privilege of disable ads
+
+Let's go and good luck.
+
+## Thanks
+
+**Rocket Launch** came from a fork of the [Circle Jump](http://kidscancode.org/godot_recipes/games/circle_jump/) project
 
 ![](http://kidscancode.org/godot_recipes/img/cj_banner_002.png)
 
@@ -9,6 +29,3 @@ You can follow the development here (written and video tutorials):
 
 ![](http://kidscancode.org/godot_recipes/img/circle_jump.gif)
 
-Get it from the [Google Play Store](https://play.google.com/store/apps/details?id=org.kidscancode.circlejump)
-
-Download from [Itch.io](https://kidscancode.itch.io/circle-jump)
