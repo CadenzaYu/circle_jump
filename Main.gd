@@ -15,6 +15,7 @@ var bonus = 0 setget set_bonus
 
 onready var admob = $Admob
 onready var audio_player := $AudioPlayer
+onready var unityads = $UnityAds
 
 func _ready():
 	if settings.DEBUG:
@@ -22,6 +23,8 @@ func _ready():
 		admob.banner_id = "ca-app-pub-3940256099942544/6300978111"
 		admob.interstitial_id = "ca-app-pub-3940256099942544/1033173712"
 		admob.rewarded_id = "ca-app-pub-3940256099942544/5224354917"
+		unityads._is_test_mode = true
+		
 	settings.admob = admob
 	admob.load_banner()
 	admob.load_interstitial()
@@ -107,7 +110,15 @@ func _on_Jumper_died():
 	if settings.enable_ads:
 		if randf() < settings.interstitial_rate:
 			if admob.is_interstitial_loaded():
-				admob.show_interstitial()
+				if unityads.is_rewarded_loaded():
+					if randf() < 0.5:
+						unityads.show_rewarded()
+					else:
+						admob.show_interstitial()
+				else:
+					admob.show_interstitial()
+			elif unityads.is_rewarded_loaded():
+				unityads.show_rewarded()
 			else:
 				admob.show_banner()
 		else:
@@ -158,3 +169,14 @@ func _on_Admob_interstitial_failed_to_load(error_code):
 
 func _on_Admob_interstitial_loaded():
 	print("Interstitial loaded\n")
+
+
+func _on_UnityAds_initialization_completed():
+	unityads.load_rewarded()
+
+
+func _on_UnityAds_rewarded_closed():
+	unityads.load_rewarded()
+	if settings.enable_ads:
+		admob.show_banner()
+
