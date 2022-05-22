@@ -1,5 +1,7 @@
 extends Node
 
+const LEVEL_UP_SOUND = preload("res://assets/audio/level_up.ogg")
+const GAME_OVER_SOUND = preload("res://assets/audio/game_over.ogg")
 var Circle = preload("res://objects/Circle.tscn")
 var Jumper = preload("res://objects/Jumper.tscn")
 
@@ -12,6 +14,7 @@ var level = 0
 var bonus = 0 setget set_bonus
 
 onready var admob = $Admob
+onready var audio_player := $AudioPlayer
 
 func _ready():
 	if settings.DEBUG:
@@ -52,7 +55,9 @@ func spawn_circle(_position=null):
 	var c = Circle.instance()
 	if !_position:
 		var x = rand_range(-150, 150)
-		var y = rand_range(-500, -400)
+		var y = rand_range(-450, -350)
+		y -= level * 10
+		y = max(y, -650)
 		_position = player.target.position + Vector2(x, y)
 	add_child(c)
 	c.connect("full_orbit", self, "set_bonus", [1])
@@ -68,6 +73,11 @@ func _on_Jumper_captured(object):
 	if num_circles > 0 and num_circles % settings.circles_per_level == 0:
 		level += 1
 		$HUD.show_message("Level %s" % str(level))
+		if settings.save_dict["enable_sound"]:
+				audio_player.stream = LEVEL_UP_SOUND
+				audio_player.stream.loop = false
+				audio_player.play()
+				yield(audio_player, "finished")
 
 func set_score(value):
 	$HUD.update_score(score, value)
@@ -85,12 +95,21 @@ func _on_Jumper_died():
 	Input.vibrate_handheld()
 	$Screens.game_over(score, highscore)
 	$HUD.hide()
+	if settings.save_dict["enable_sound"]:
+		audio_player.stream = GAME_OVER_SOUND
+		audio_player.stream.loop = false
+		audio_player.play()
+		yield(audio_player, "finished")
+
 	if settings.save_dict["enable_music"]:
 		fade_music()
 	yield(get_tree().create_timer(1.0), "timeout")
 	if settings.enable_ads:
 		if randf() < settings.interstitial_rate:
-			admob.show_interstitial()
+			if admob.is_interstitial_loaded():
+				admob.show_interstitial()
+			else:
+				admob.show_banner()
 		else:
 			admob.show_banner()
 
@@ -128,6 +147,7 @@ func _on_Admob_banner_loaded():
 
 func _on_Admob_interstitial_closed():
 	print("Interstitial closed\n")
+	admob.load_interstitial()
 	if settings.enable_ads:
 		admob.show_banner()
 

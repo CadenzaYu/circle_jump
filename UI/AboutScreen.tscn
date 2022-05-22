@@ -39,12 +39,12 @@ custom_fonts/normal_font = SubResource( 3 )
 custom_styles/focus = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
 bbcode_enabled = true
-bbcode_text = "[center][u]Rocket Launch[/u]
+bbcode_text = "[center][tornado radius=5 freq=2][b]Rocket Launch[/b][/tornado]
 
 [img]res://assets/images/godot_logo.png[/img][/center]
 
 Rocket Launch came from a fork of the Circle Jump.
-[url=https://github.com/CadenzaYu/circle_jump]Rochet Launch Source[/url]
+[url=https://github.com/CadenzaYu/rocket_launch]Rochet Launch Source[/url]
 
 Circle Jump is an open source tutorial game made with the Godot Game Engine. You can find the tutorial and the game's source code here:
 

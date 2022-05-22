@@ -40,6 +40,8 @@ interstitial_id = "ca-app-pub-7934104401485861/4651218922"
 rewarded_id = "ca-app-pub-7934104401485861/8455297214"
 is_personalized = false
 
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+
 [connection signal="start_game" from="Screens" to="." method="new_game"]
 [connection signal="banner_failed_to_load" from="Admob" to="." method="_on_Admob_banner_failed_to_load"]
 [connection signal="banner_loaded" from="Admob" to="." method="_on_Admob_banner_loaded"]
