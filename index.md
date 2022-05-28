@@ -1,36 +1,35 @@
-## Welcome to GitHub Pages
+# Rocket Launch: A Godot Engine Game
+![](https://github.com/CadenzaYu/circle_jump/blob/master/RocketLaunch.png)
+**Rocket Launch** is an one-touch casual game. 
 
-You can use the [editor on GitHub](https://github.com/CadenzaYu/rocket_launch/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+**Get it** from the [Google Play Store](https://play.google.com/store/apps/details?id=home.cadenzayu.rocketlaunch)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Game story
 
-### Markdown
+You will take a rocket for interstellar travel, flying from one planet to another. Because of the planet's autobiography, you have to choose the best time to launch the rocket so that it can fly to the target planet and be captured by it. If the planet can not capture you, you lose.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Some planets are stable and you can take a break. Some planets are unstable and you must leave as soon as possible. The difficulty will increase over time with planets that move, shrink, and/or expire. Longer the travel time, more scores you get.
 
-```markdown
-Syntax highlighted code block
+The operation is very simple, at the right time, tap the screen to launch.
 
-# Header 1
-## Header 2
-### Header 3
+Tip: When your highest score exceeds 400, you will be rewarded with the privilege of disable ads
 
-- Bulleted
-- List
+Let's go and good luck.
 
-1. Numbered
-2. List
+## Thanks
 
-**Bold** and _Italic_ and `Code` text
+**Rocket Launch** came from a fork of the [Circle Jump](http://kidscancode.org/godot_recipes/games/circle_jump/) project
 
-[Link](url) and ![Image](src)
-```
+![](http://kidscancode.org/godot_recipes/img/cj_banner_002.png)
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+**Circle Jump** is a mobile game you can learn to make using the Godot Game Engine.
 
-### Jekyll Themes
+You can follow the development here (written and video tutorials):
+[Game Tutorial: Circle Jump](http://kidscancode.org/godot_recipes/games/circle_jump/)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/CadenzaYu/rocket_launch/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+![](http://kidscancode.org/godot_recipes/img/circle_jump.gif)
+
+
 
 ### Support or Contact
 
