@@ -1,5 +1,5 @@
 # Rocket Launch: A Godot Engine Game
-![](https://github.com/CadenzaYu/circle_jump/blob/master/RocketLaunch.png)
+![](https://github.com/CadenzaYu/rocket_launch/blob/master/RocketLaunch.png)
 **Rocket Launch** is an one-touch casual game. 
 
 **Get it** from the [Google Play Store](https://play.google.com/store/apps/details?id=home.cadenzayu.rocketlaunch)
