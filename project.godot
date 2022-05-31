@@ -21,7 +21,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AdMob": "res://admob-lib/icon.png",
-"UnityAds": ""
+"UnityAds": "res://unity-ads-lib/icon.png"
 }
 
 [application]

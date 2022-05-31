@@ -16,6 +16,7 @@ var bonus = 0 setget set_bonus
 onready var admob = $Admob
 onready var audio_player := $AudioPlayer
 onready var unityads = $UnityAds
+onready var background = $Background
 
 func _ready():
 	if settings.DEBUG:
@@ -40,6 +41,7 @@ func new_game():
 	self.bonus = 0
 	num_circles = 0
 	level = 1
+	background.set_background(level)
 	$HUD.update_score(score, 0)
 	$Camera2D.position = $StartPosition.position
 	player = Jumper.instance()
@@ -75,6 +77,7 @@ func _on_Jumper_captured(object):
 	num_circles += 1
 	if num_circles > 0 and num_circles % settings.circles_per_level == 0:
 		level += 1
+		background.set_background(level)
 		$HUD.show_message("Level %s" % str(level))
 		if settings.save_dict["enable_sound"]:
 				audio_player.stream = LEVEL_UP_SOUND

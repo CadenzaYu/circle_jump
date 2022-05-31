@@ -1,5 +1,5 @@
 extends Node
-class_name UnityAds
+class_name UnityAds, "res://unity-ads-lib/icon.png"
 
 # Godot IronSource mobile ad plugin library
 # Initializing, Interstitial , Rewarded ads and Banner implementation
