@@ -39,7 +39,7 @@ banner_on_top = false
 banner_id = "ca-app-pub-7934104401485861/4571327875"
 interstitial_id = "ca-app-pub-7934104401485861/4651218922"
 rewarded_id = "ca-app-pub-7934104401485861/8455297214"
-is_personalized = false
+rewarded_interstitial_id = "ca-app-pub-7934104401485861/1381655773"
 
 [node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
 
@@ -49,9 +49,14 @@ script = ExtResource( 7 )
 [connection signal="start_game" from="Screens" to="." method="new_game"]
 [connection signal="banner_failed_to_load" from="Admob" to="." method="_on_Admob_banner_failed_to_load"]
 [connection signal="banner_loaded" from="Admob" to="." method="_on_Admob_banner_loaded"]
+[connection signal="initialization_complete" from="Admob" to="." method="_on_Admob_initialization_complete"]
 [connection signal="interstitial_closed" from="Admob" to="." method="_on_Admob_interstitial_closed"]
 [connection signal="interstitial_failed_to_load" from="Admob" to="." method="_on_Admob_interstitial_failed_to_load"]
 [connection signal="interstitial_loaded" from="Admob" to="." method="_on_Admob_interstitial_loaded"]
+[connection signal="rewarded_interstitial_ad_closed" from="Admob" to="." method="_on_Admob_rewarded_interstitial_ad_closed"]
+[connection signal="rewarded_interstitial_ad_loaded" from="Admob" to="." method="_on_Admob_rewarded_interstitial_ad_loaded"]
+[connection signal="rewarded_interstitial_ad_opened" from="Admob" to="." method="_on_Admob_rewarded_interstitial_ad_opened"]
+[connection signal="user_earned_rewarded" from="Admob" to="." method="_on_Admob_user_earned_rewarded"]
 [connection signal="initialization_completed" from="UnityAds" to="." method="_on_UnityAds_initialization_completed"]
 [connection signal="rewarded_closed" from="UnityAds" to="." method="_on_UnityAds_rewarded_closed"]
 [connection signal="rewarded_loaded" from="UnityAds" to="." method="_on_UnityAds_rewarded_loaded"]

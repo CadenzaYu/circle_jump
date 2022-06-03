@@ -62,7 +62,7 @@ func check_orbits():
 		current_orbits += 1
 		emit_signal("full_orbit")
 		if mode == MODES.LIMITED:
-			if settings.enable_sound:
+			if settings.save_dict["enable_sound"]:
 				$Beep.play()
 			$Label.text = str(num_orbits - current_orbits)
 			if current_orbits >= num_orbits:

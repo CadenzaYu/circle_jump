@@ -8,19 +8,12 @@
 layer = -1
 script = ExtResource( 3 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
-modulate = Color( 0, 0, 0, 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0.3, 0.33, 0.37, 1 )
-
 [node name="TextureRect" type="TextureRect" parent="."]
-modulate = Color( 1, 1, 1, 0.705882 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 texture = ExtResource( 2 )
+expand = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 modulate = Color( 1, 1, 1, 0.396078 )

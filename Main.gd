@@ -20,19 +20,19 @@ onready var background = $Background
 
 func _ready():
 	if settings.DEBUG:
-		admob.is_real = false
 		admob.banner_id = "ca-app-pub-3940256099942544/6300978111"
 		admob.interstitial_id = "ca-app-pub-3940256099942544/1033173712"
 		admob.rewarded_id = "ca-app-pub-3940256099942544/5224354917"
+		admob.rewarded_interstitial_id = "ca-app-pub-3940256099942544/5354046379"
+		admob.is_real = false
 		unityads._is_test_mode = true
+		settings.save_dict["life"] = 2
+		settings.interstitial_rate = 1.0
 		
 	settings.admob = admob
-	admob.load_banner()
-	admob.load_interstitial()
 	randomize()
 	highscore = settings.save_dict["highscore"]
 	$HUD.hide()
-	$Background/ColorRect.color = settings.theme["background"]
 	
 func new_game():
 	new_highscore = false
@@ -43,19 +43,23 @@ func new_game():
 	level = 1
 	background.set_background(level)
 	$HUD.update_score(score, 0)
+	$HUD.show_rocket(settings.save_dict["life"])
 	$Camera2D.position = $StartPosition.position
-	player = Jumper.instance()
-	player.position = $StartPosition.position
-	add_child(player)
-	player.connect("captured", self, "_on_Jumper_captured")
-	player.connect("died", self, "_on_Jumper_died")
+	new_player($StartPosition.position)
 	spawn_circle($StartPosition.position)
 	$HUD.show()
 	$HUD.show_message("Go!")
 	if settings.save_dict["enable_music"]:
 		$Music.volume_db = 0
 		$Music.play()
-	
+
+func new_player(_position = $StartPosition.position):
+	player = Jumper.instance()
+	player.position = _position
+	add_child(player)
+	player.connect("captured", self, "_on_Jumper_captured")
+	player.connect("died", self, "_on_Jumper_died")
+		
 func spawn_circle(_position=null):
 	var c = Circle.instance()
 	if !_position:
@@ -93,39 +97,51 @@ func set_score(value):
 		new_highscore = true
 	
 func _on_Jumper_died():
-	if score > highscore:
-		highscore = score
-		settings.save_dict["highscore"] = score
+	# if has lives
+	if settings.save_dict["life"] > 0:
+		settings.save_dict["life"] -= 1
 		settings.save_game()
-	get_tree().call_group("circles", "implode")
-	Input.vibrate_handheld()
-	$Screens.game_over(score, highscore)
-	$HUD.hide()
-	if settings.save_dict["enable_sound"]:
-		audio_player.stream = GAME_OVER_SOUND
-		audio_player.stream.loop = false
-		audio_player.play()
-		yield(audio_player, "finished")
+		$HUD.show_rocket(settings.save_dict["life"])
+		var _pos = Vector2(0, 1000)
+		for a_child in get_children():
+			if is_instance_valid(a_child) and "Circle" in a_child.name:
+				if a_child.position.y < _pos.y:
+					_pos =  a_child.position
+		new_player(_pos)
+	else:
+		if score > highscore:
+			highscore = score
+			settings.save_dict["highscore"] = score
+			settings.save_game()
+		get_tree().call_group("circles", "implode")
+		Input.vibrate_handheld()
+		$Screens.game_over(score, highscore)
+		$HUD.hide()
+		if settings.save_dict["enable_sound"]:
+			audio_player.stream = GAME_OVER_SOUND
+			audio_player.stream.loop = false
+			audio_player.play()
+			yield(audio_player, "finished")
 
-	if settings.save_dict["enable_music"]:
-		fade_music()
-	yield(get_tree().create_timer(1.0), "timeout")
-	if settings.enable_ads:
-		if randf() < settings.interstitial_rate:
-			if admob.is_interstitial_loaded():
-				if unityads.is_rewarded_loaded():
-					if randf() < 0.5:
-						unityads.show_rewarded()
+		if settings.save_dict["enable_music"]:
+			fade_music()
+		yield(get_tree().create_timer(1.0), "timeout")
+		if settings.enable_ads:
+			if randf() < settings.interstitial_rate:
+				if admob.is_rewarded_interstitial_loaded():
+					if unityads.is_rewarded_loaded():
+						if randf() < 0.5:
+							unityads.show_rewarded()
+						else:
+							admob.show_rewarded_interstitial()
 					else:
-						admob.show_interstitial()
+						admob.show_rewarded_interstitial()
+				elif unityads.is_rewarded_loaded():
+					unityads.show_rewarded()
 				else:
-					admob.show_interstitial()
-			elif unityads.is_rewarded_loaded():
-				unityads.show_rewarded()
+					admob.show_banner()
 			else:
 				admob.show_banner()
-		else:
-			admob.show_banner()
 
 func fade_music():
 	$MusicFade.interpolate_property($Music, "volume_db",
@@ -145,19 +161,18 @@ func _notification(what):
 			get_tree().quit()
 		elif $Screens.current_screen: #not playing
 			$Screens.change_screen($Screens/TitleScreen)
-#	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
-#		print("focus out")
-#	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
-#		print("focus in")
 
+
+func _on_Admob_initialization_complete(status, adapter_name):
+	admob.load_banner()
+	#admob.load_interstitial()
+	admob.load_rewarded_interstitial()
 
 func _on_Admob_banner_failed_to_load(error_code):
 	print("Banner failed to load: Error code " + str(error_code) + "\n")
 
-
 func _on_Admob_banner_loaded():
 	print("Banner loaded\n")
-
 
 func _on_Admob_interstitial_closed():
 	print("Interstitial closed\n")
@@ -165,21 +180,34 @@ func _on_Admob_interstitial_closed():
 	if settings.enable_ads:
 		admob.show_banner()
 
-
 func _on_Admob_interstitial_failed_to_load(error_code):
 	print("Interstitial failed to load: Error code " + str(error_code) + "\n")
-
 
 func _on_Admob_interstitial_loaded():
 	print("Interstitial loaded\n")
 
+func _on_Admob_rewarded_interstitial_ad_loaded():
+	print("Admob_rewarded_interstitial_ad_loaded\n")
+
+func _on_Admob_rewarded_interstitial_ad_closed():
+	admob.load_rewarded_interstitial()
+	if settings.enable_ads:
+		admob.show_banner()
+
+func _on_Admob_user_earned_rewarded(currency, amount):
+	#assert(currency == "life")
+	print("currency: %s "  % currency, "amount=%d" % amount)
+	settings.save_dict["life"] += amount
+	settings.save_game()
 
 func _on_UnityAds_initialization_completed():
 	unityads.load_rewarded()
-
 
 func _on_UnityAds_rewarded_closed():
 	unityads.load_rewarded()
 	if settings.enable_ads:
 		admob.show_banner()
 
+
+func _on_Admob_rewarded_interstitial_ad_opened():
+	print("Admob_rewarded_interstitial_ad_opened\n")

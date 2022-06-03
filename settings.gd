@@ -1,6 +1,7 @@
 extends Node
 
-const DEBUG = false
+const DEBUG = true
+
 var circles_per_level = 5
 
 var color_schemes = {
@@ -41,7 +42,8 @@ var save_dict = {
 		"enable_sound" : true,
 		"enable_music" : true,
 		"enable_ads" : true,
-		"highscore" : 0
+		"highscore" : 0,
+		"life" : 3
 	}
 # Note: This can be called from anywhere inside the tree. This function is
 # path independent.

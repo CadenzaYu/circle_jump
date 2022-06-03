@@ -1,5 +1,9 @@
 extends CanvasLayer
 
+onready var rocket1 = $BonusBox/HBoxContainer/Rocket1
+onready var rocket2 = $BonusBox/HBoxContainer/Rocket2
+onready var rocket3 = $BonusBox/HBoxContainer/Rocket3
+
 var score = 0
 
 func _ready():
@@ -26,12 +30,27 @@ func update_score(_score, value):
 			value, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$Tween.start()
 	$ScoreAnimation.play("score")
-#	$ScoreBox/HBoxContainer/Score.text = str(value)
 
 func update_bonus(value):
 	$BonusBox/Bonus.text = str(value) + "x"
 	if value > 1:
 		$BonusAnimation.play("bonus")
-
+# only display less 3 rockets
+func show_rocket(n:int):
+	rocket1.visible = false
+	rocket2.visible = false
+	rocket3.visible = false
+	n = min(3, n)
+	match n:
+		1:
+			rocket1.visible = true
+		2:
+			rocket1.visible = true
+			rocket2.visible = true
+		3:
+			rocket1.visible = true
+			rocket2.visible = true
+			rocket3.visible = true
+	
 func _on_Tween_tween_step(object, key, elapsed, value):
 	$ScoreBox/HBoxContainer/Score.text = str(int(value))

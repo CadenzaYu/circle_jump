@@ -14,7 +14,6 @@ var target = null
 var trail_length = 25
 
 func _ready():
-	#$Sprite.material.set_shader_param("color", settings.theme["player_body"])
 	$Sprite.texture = rocket
 	var trail_color = settings.theme["player_trail"]
 	trail.gradient.set_color(1, trail_color)
