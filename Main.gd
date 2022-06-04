@@ -2,6 +2,7 @@ extends Node
 
 const LEVEL_UP_SOUND = preload("res://assets/audio/level_up.ogg")
 const GAME_OVER_SOUND = preload("res://assets/audio/game_over.ogg")
+const NEW_HIGHSCORE_SOUND = preload("res://assets/audio/new_highscore.ogg")
 var Circle = preload("res://objects/Circle.tscn")
 var Jumper = preload("res://objects/Jumper.tscn")
 
@@ -84,10 +85,10 @@ func _on_Jumper_captured(object):
 		background.set_background(level)
 		$HUD.show_message("Level %s" % str(level))
 		if settings.save_dict["enable_sound"]:
-				audio_player.stream = LEVEL_UP_SOUND
-				audio_player.stream.loop = false
-				audio_player.play()
-				yield(audio_player, "finished")
+			audio_player.stream = LEVEL_UP_SOUND
+			audio_player.stream.loop = false
+			audio_player.play()
+			yield(audio_player, "finished")
 
 func set_score(value):
 	$HUD.update_score(score, value)
@@ -95,8 +96,15 @@ func set_score(value):
 	if score > highscore and !new_highscore:
 		$HUD.show_message("New\nRecord!")
 		new_highscore = true
+		if settings.save_dict["enable_sound"]:
+			audio_player.stream = NEW_HIGHSCORE_SOUND
+			audio_player.stream.loop = false
+			audio_player.play()
+			yield(audio_player, "finished")
 	
 func _on_Jumper_died():
+	if OS.get_name() == "Android":
+		Input.vibrate_handheld()
 	# if has lives
 	if settings.save_dict["life"] > 0:
 		settings.save_dict["life"] -= 1
@@ -114,7 +122,6 @@ func _on_Jumper_died():
 			settings.save_dict["highscore"] = score
 			settings.save_game()
 		get_tree().call_group("circles", "implode")
-		Input.vibrate_handheld()
 		$Screens.game_over(score, highscore)
 		$HUD.hide()
 		if settings.save_dict["enable_sound"]:
@@ -174,8 +181,14 @@ func _on_Admob_banner_failed_to_load(error_code):
 func _on_Admob_banner_loaded():
 	print("Banner loaded\n")
 
+func _on_Admob_banner_closed():
+	print("Admob_banner_closed\n")
+	admob.load_banner()
+	if settings.enable_ads:
+		admob.show_banner()
+
 func _on_Admob_interstitial_closed():
-	print("Interstitial closed\n")
+	print("Admob_Interstitial closed\n")
 	admob.load_interstitial()
 	if settings.enable_ads:
 		admob.show_banner()
@@ -200,6 +213,9 @@ func _on_Admob_user_earned_rewarded(currency, amount):
 	settings.save_dict["life"] += amount
 	settings.save_game()
 
+func _on_Admob_rewarded_interstitial_ad_opened():
+	print("Admob_rewarded_interstitial_ad_opened\n")
+
 func _on_UnityAds_initialization_completed():
 	unityads.load_rewarded()
 
@@ -208,6 +224,10 @@ func _on_UnityAds_rewarded_closed():
 	if settings.enable_ads:
 		admob.show_banner()
 
+func _on_UnityAds_rewarded():
+	print("UnityAds_rewarded")
+	settings.save_dict["life"] += 1
+	settings.save_game()
 
-func _on_Admob_rewarded_interstitial_ad_opened():
-	print("Admob_rewarded_interstitial_ad_opened\n")
+func _on_UnityAds_rewarded_loaded():
+	print("UnityAds_rewarded_loaded\n")

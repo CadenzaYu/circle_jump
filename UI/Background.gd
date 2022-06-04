@@ -27,6 +27,6 @@ func _ready():
 func set_background(index:int):
 	var c = max (20, 255- 8 * index)
 	texture_rect.modulate = Color8(c,c,c)
-	texture_rect.texture = backgrounds[index % 10]
+	texture_rect.texture = backgrounds[randi() % 10]
 	
 

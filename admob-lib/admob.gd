@@ -44,7 +44,7 @@ export var rewarded_interstitial_id:String
 export var child_directed:bool = false
 export(String, "G", "PG", "T", "MA") var max_ad_content_rate = "PG"
 
-# API
+# APIs
 # load
 
 func load_banner() -> void:
@@ -116,7 +116,7 @@ func get_banner_dimension() -> Vector2:
 
 func _enter_tree():
 	if not init():
-		print("AdMob Java Singleton not found. This plugin will only work on Android")
+		printerr("AdMob Java Singleton not found. This plugin will only work on Android")
 
 # setters
 func is_real_set(new_val) -> void:

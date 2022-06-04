@@ -1,6 +1,6 @@
 extends Node
 
-const DEBUG = true
+const DEBUG = false
 
 var circles_per_level = 5
 
@@ -43,7 +43,7 @@ var save_dict = {
 		"enable_music" : true,
 		"enable_ads" : true,
 		"highscore" : 0,
-		"life" : 3
+		"life" : 2
 	}
 # Note: This can be called from anywhere inside the tree. This function is
 # path independent.
