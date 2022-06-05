@@ -43,6 +43,7 @@ export var rewarded_id:String
 export var rewarded_interstitial_id:String
 export var child_directed:bool = false
 export(String, "G", "PG", "T", "MA") var max_ad_content_rate = "PG"
+enum INITIALIZATION_STATUS {NOT_READY, READY}
 
 # APIs
 # load
@@ -114,20 +115,17 @@ func get_banner_dimension() -> Vector2:
 
 ############### inner ############
 
-func _enter_tree():
+func _ready():
+	yield(owner, "ready")
 	if not init():
 		printerr("AdMob Java Singleton not found. This plugin will only work on Android")
 
 # setters
 func is_real_set(new_val) -> void:
 	is_real = new_val
-# warning-ignore:return_value_discarded
-	init()
 	
 func child_directed_set(new_val) -> void:
 	child_directed = new_val
-# warning-ignore:return_value_discarded
-	init()
 
 func max_ad_content_rate_set(new_val) -> void:
 	if new_val != "G" and new_val != "PG" \
@@ -147,7 +145,7 @@ func init() -> bool:
 		# check if one signal is already connected
 		if not _admob_singleton.is_connected("initialization_complete", self, "_on_AdMob_initialization_complete"):
 			_connect_signals()
-
+		# if already initialized, do nothing
 		_admob_singleton.initialize(child_directed, max_ad_content_rate, is_real, false)  #set to not test GDPR
 		return true
 	return false
@@ -213,7 +211,7 @@ func _on_AdMob_banner_loaded() -> void:
 func _on_AdMob_banner_failed_to_load(error_code : int) -> void:
 	emit_signal("banner_failed_to_load", error_code)
 func _on_AdMob_banner_opened() -> void:
-	emit_signal("banner_loaded")
+	emit_signal("banner_opened")
 func _on_AdMob_banner_clicked() -> void:
 	emit_signal("banner_clicked")
 func _on_AdMob_banner_closed() -> void:

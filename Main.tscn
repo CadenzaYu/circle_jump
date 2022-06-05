@@ -47,9 +47,12 @@ rewarded_interstitial_id = "ca-app-pub-7934104401485861/1381655773"
 script = ExtResource( 7 )
 
 [connection signal="start_game" from="Screens" to="." method="new_game"]
+[connection signal="banner_clicked" from="Admob" to="." method="_on_Admob_banner_clicked"]
 [connection signal="banner_closed" from="Admob" to="." method="_on_Admob_banner_closed"]
+[connection signal="banner_destroyed" from="Admob" to="." method="_on_Admob_banner_destroyed"]
 [connection signal="banner_failed_to_load" from="Admob" to="." method="_on_Admob_banner_failed_to_load"]
 [connection signal="banner_loaded" from="Admob" to="." method="_on_Admob_banner_loaded"]
+[connection signal="banner_opened" from="Admob" to="." method="_on_Admob_banner_opened"]
 [connection signal="initialization_complete" from="Admob" to="." method="_on_Admob_initialization_complete"]
 [connection signal="interstitial_closed" from="Admob" to="." method="_on_Admob_interstitial_closed"]
 [connection signal="interstitial_failed_to_load" from="Admob" to="." method="_on_Admob_interstitial_failed_to_load"]

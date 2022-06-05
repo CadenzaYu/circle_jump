@@ -91,7 +91,7 @@ func set_enable_ads(value):
 	if admob:
 		if enable_ads:
 			admob.show_banner()
-		if !enable_ads:
+		else:
 			admob.hide_banner()
 	save_game()
 		

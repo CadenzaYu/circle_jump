@@ -109,6 +109,8 @@ func _on_Jumper_died():
 	if settings.save_dict["life"] > 0:
 		settings.save_dict["life"] -= 1
 		settings.save_game()
+		$HUD.flash_rocket()
+		yield($HUD.tween_rocket, "tween_all_completed")
 		$HUD.show_rocket(settings.save_dict["life"])
 		var _pos = Vector2(0, 1000)
 		for a_child in get_children():
@@ -171,15 +173,19 @@ func _notification(what):
 
 
 func _on_Admob_initialization_complete(status, adapter_name):
-	admob.load_banner()
-	#admob.load_interstitial()
-	admob.load_rewarded_interstitial()
+	print("Admob_initialization_complete：%d, " %status + adapter_name)
+	if status == admob.INITIALIZATION_STATUS.READY:
+		admob.load_banner()
+		#admob.load_interstitial()
+		admob.load_rewarded_interstitial()
 
 func _on_Admob_banner_failed_to_load(error_code):
 	print("Banner failed to load: Error code " + str(error_code) + "\n")
 
 func _on_Admob_banner_loaded():
 	print("Banner loaded\n")
+	if settings.enable_ads:
+		admob.show_banner()
 
 func _on_Admob_banner_closed():
 	print("Admob_banner_closed\n")
@@ -231,3 +237,15 @@ func _on_UnityAds_rewarded():
 
 func _on_UnityAds_rewarded_loaded():
 	print("UnityAds_rewarded_loaded\n")
+
+
+func _on_Admob_banner_opened():
+	print("_on_Admob_banner_opened\n")
+
+
+func _on_Admob_banner_destroyed():
+	print("_on_Admob_banner_destroyed\n")
+
+
+func _on_Admob_banner_clicked():
+	print("_on_Admob_banner_clicked\n")

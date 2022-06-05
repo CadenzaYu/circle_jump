@@ -3,6 +3,7 @@ extends CanvasLayer
 onready var rocket1 = $BonusBox/HBoxContainer/Rocket1
 onready var rocket2 = $BonusBox/HBoxContainer/Rocket2
 onready var rocket3 = $BonusBox/HBoxContainer/Rocket3
+onready var tween_rocket = $TweenRocket
 
 var score = 0
 
@@ -51,6 +52,16 @@ func show_rocket(n:int):
 			rocket1.visible = true
 			rocket2.visible = true
 			rocket3.visible = true
+
+# flash the last rocket
+func flash_rocket():
+	tween_rocket.interpolate_property(rocket1,  "modulate:a", 1.0, 0.2, 0.3, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
+	tween_rocket.interpolate_property(rocket1,  "modulate:a", 0.2, 1.0, 0.3, Tween.TRANS_QUAD, Tween.EASE_IN_OUT, 0.3)
+	tween_rocket.interpolate_property(rocket1,  "modulate:a", 1.0, 0.2, 0.3, Tween.TRANS_QUAD, Tween.EASE_IN_OUT, 0.6)
+	tween_rocket.interpolate_property(rocket1,  "modulate:a", 0.2, 1.0, 0.3, Tween.TRANS_QUAD, Tween.EASE_IN_OUT, 0.9)
+	tween_rocket.interpolate_property(rocket1,  "modulate:a", 1.0, 0.2, 0.3, Tween.TRANS_QUAD, Tween.EASE_IN_OUT, 1.2)
+	tween_rocket.interpolate_property(rocket1,  "modulate:a", 0.2, 1.0, 0.3, Tween.TRANS_QUAD, Tween.EASE_IN_OUT, 1.5)
+	tween_rocket.start()
 	
 func _on_Tween_tween_step(object, key, elapsed, value):
 	$ScoreBox/HBoxContainer/Score.text = str(int(value))

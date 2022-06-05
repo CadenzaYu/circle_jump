@@ -83,7 +83,8 @@ func is_initialized() -> bool:
 var _unity_ads : Object = null
 
 
-func _enter_tree() -> void:
+func _ready() -> void:
+	yield(owner, "ready")
 	if not _initialize():
 		printerr("GodotUnityAds Plugin not found, Android Only")
 

@@ -19,7 +19,7 @@ func register_buttons():
 		button.connect("pressed", self, "_on_button_pressed", [button])
 		match button.name:
 			"Ads":
-				if not Engine.has_singleton("GodotAdMob"): 
+				if not Engine.has_singleton("AdMob"): 
 					button.hide()
 				if not settings.DEBUG and settings.save_dict["highscore"] < 400:
 					button.hide()

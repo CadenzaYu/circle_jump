@@ -203,21 +203,21 @@ margin_right = 460.0
 margin_bottom = 104.0
 alignment = 2
 
-[node name="Rocket1" type="TextureRect" parent="BonusBox/HBoxContainer"]
+[node name="Rocket3" type="TextureRect" parent="BonusBox/HBoxContainer"]
 visible = false
-margin_left = 336.0
-margin_right = 368.0
+margin_left = 408.0
+margin_right = 440.0
 margin_bottom = 84.0
 texture = ExtResource( 4 )
 
 [node name="Rocket2" type="TextureRect" parent="BonusBox/HBoxContainer"]
 visible = false
-margin_left = 372.0
-margin_right = 404.0
+margin_left = 408.0
+margin_right = 440.0
 margin_bottom = 84.0
 texture = ExtResource( 4 )
 
-[node name="Rocket3" type="TextureRect" parent="BonusBox/HBoxContainer"]
+[node name="Rocket1" type="TextureRect" parent="BonusBox/HBoxContainer"]
 visible = false
 margin_left = 408.0
 margin_right = 440.0
@@ -262,5 +262,7 @@ anims/init = SubResource( 5 )
 anims/show_message = SubResource( 6 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="TweenRocket" type="Tween" parent="."]
 
 [connection signal="tween_step" from="Tween" to="." method="_on_Tween_tween_step"]
